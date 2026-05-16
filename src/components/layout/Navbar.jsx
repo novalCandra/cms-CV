@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LogoutModal from "./LogoutModal";
+import { LogOut } from "lucide-react";
 
 export default function Navbar({ title, currentPage, currentStep, onLogout, userName }) {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -11,7 +12,13 @@ export default function Navbar({ title, currentPage, currentStep, onLogout, user
     <>
       <header className="h-14 bg-white border-b border-slate-200 flex items-center px-4 gap-3 shrink-0 sticky top-0 z-30">
         <div className="md:hidden flex items-center gap-2 mr-1">
-          <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-sm font-bold">C</div>
+          <div className="w-8 h-8 shrink-0">
+          <img
+            src="/logo_cv.png"
+            alt="CVcraft Logo"
+            className="w-full h-full object-contain"
+          />
+        </div>
         </div>
         <h1 className="font-semibold text-slate-800 text-sm flex-1 truncate">{title}</h1>
         <div className="flex items-center gap-2">
@@ -23,13 +30,13 @@ export default function Navbar({ title, currentPage, currentStep, onLogout, user
               {currentStep}/7
             </span>
           )}
-          <button
-            onClick={() => setShowLogoutModal(true)}
-            className="md:hidden text-slate-400 hover:text-red-400 transition p-1.5 rounded-lg hover:bg-slate-100"
-            title="Keluar"
-          >
-            🚪
-          </button>
+            <button
+              onClick={() => setShowLogoutModal(true)}
+              className="md:hidden text-slate-400 hover:text-red-500 transition-all duration-200 p-2 rounded-xl hover:bg-red-50"
+              title="Keluar"
+            >
+              <LogOut size={18} strokeWidth={2.2} />
+            </button>
           <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold text-white shrink-0">{initials}</div>
         </div>
       </header>

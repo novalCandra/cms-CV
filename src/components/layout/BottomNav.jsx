@@ -1,14 +1,37 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
+import {
+  House,
+  FileEdit,
+  Eye,
+  Download,
+} from "lucide-react";
+
 export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const items = [
-    { path: "/dashboard", label: "Beranda", icon: "🏠" },
-    { path: "/builder", label: "Builder", icon: "📝" },
-    { path: "/preview", label: "Preview", icon: "👁️" },
-    { path: "/download", label: "Download", icon: "⬇️" },
+    {
+      path: "/dashboard",
+      label: "Beranda",
+      icon: House,
+    },
+    {
+      path: "/builder",
+      label: "Builder",
+      icon: FileEdit,
+    },
+    {
+      path: "/preview",
+      label: "Preview",
+      icon: Eye,
+    },
+    {
+      path: "/download",
+      label: "Download",
+      icon: Download,
+    },
   ];
 
   return (
@@ -16,19 +39,26 @@ export default function BottomNav() {
       {items.map((item) => {
         const isActive = location.pathname === item.path;
 
+        const Icon = item.icon;
+
         return (
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`flex-1 flex flex-col items-center py-2 gap-0.5 text-xs font-medium transition-colors ${
+            className={`flex-1 flex flex-col items-center py-2 gap-1 text-xs font-medium transition-all duration-200 ${
               isActive
                 ? "text-indigo-600"
                 : "text-slate-400"
             }`}
           >
-            <span className="text-lg leading-none">
-              {item.icon}
-            </span>
+            <Icon
+              size={20}
+              className={`transition-transform duration-200 ${
+                isActive
+                  ? "scale-110"
+                  : "scale-100"
+              }`}
+            />
 
             <span className="text-[10px]">
               {item.label}

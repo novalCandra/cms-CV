@@ -47,6 +47,7 @@ import PreviewPage from "../pages/PreviewPage";
 import DownloadPage from "../pages/DownloadPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import NotFound from "../pages/Notfound";
 
 export default function AppRoutes() {
   return (
@@ -55,6 +56,8 @@ export default function AppRoutes() {
       {/* AUTH */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+        <Route path="/*" element={<NotFound />} />
+
 
       {/* APP */}
       <Route element={<MainLayout />}>
@@ -65,7 +68,7 @@ export default function AppRoutes() {
       </Route>
 
       {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      {/* <Route path="*" element={<Navigate to="/dashboard" replace />} /> */}
 
     </Routes>
   );

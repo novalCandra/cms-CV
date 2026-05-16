@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import CVPreviewTemplate from "../components/cv/CVPreviewTemplate";
+// import CVPreviewTemplate from "../components/cv/CVPreviewTemplate";
+import CVPreviewTemplate2 from "../components/cv/CVPreviewTemplate2";
 
 export default function DownloadPage({ profile, experiences, educations, skills, projects, selectedTheme }) {
   const [format, setFormat] = useState("pdf");
@@ -65,7 +66,7 @@ export default function DownloadPage({ profile, experiences, educations, skills,
       </div>
 
       <div className="bg-slate-50 rounded-2xl p-3" ref={cvRef}>
-        <CVPreviewTemplate
+        <CVPreviewTemplate2
           profile={profile}
           experiences={experiences}
           educations={educations}
