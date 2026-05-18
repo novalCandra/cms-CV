@@ -1,11 +1,17 @@
-import { THEMES, CATEGORIES } from "../../constants";
+import { THEMES, CATEGORIES, TEMPLATES  } from "../../constants";
 
 export default function StepTheme({
   selectedTheme,
   setSelectedTheme,
   selectedCategory,
   setSelectedCategory,
+
+  selectedTemplate,
+  setSelectedTemplate,
 }) {
+    const filteredTemplates = TEMPLATES.filter(
+    (t) => t.category === selectedCategory
+  );
   return (
     <div className="space-y-6">
       
@@ -61,6 +67,44 @@ export default function StepTheme({
           })}
         </div>
       </div>
+      {/* TEMPLATE */}
+      
+    <div>
+      <h2 className="font-semibold text-slate-800 mb-3">
+        Pilih Template
+      </h2>
+
+      <div className="grid grid-cols-2 gap-3">
+        {filteredTemplates.map((template) => (
+          <button
+            key={template.id}
+            onClick={() => setSelectedTemplate(template.id)}
+            className={`rounded-2xl border-2 p-3 text-left transition-all ${
+              selectedTemplate === template.id
+                ? "border-indigo-500 bg-indigo-50"
+                : "border-slate-200 bg-white hover:border-slate-300"
+            }`}
+          >
+            {/* Thumbnail dummy */}
+            <div className="aspect-[3/4] rounded-xl bg-slate-100 mb-3 flex items-center justify-center">
+              <span className="text-xs text-slate-400">
+                Preview
+              </span>
+            </div>
+
+            <p
+              className={`font-semibold text-sm ${
+                selectedTemplate === template.id
+                  ? "text-indigo-700"
+                  : "text-slate-800"
+              }`}
+            >
+              {template.name}
+            </p>
+          </button>
+        ))}
+      </div>
+    </div>
 
       {/* THEMES */}
       <div>

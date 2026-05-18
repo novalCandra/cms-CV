@@ -1,7 +1,5 @@
-// import ATSModern from "../templates/ats/ATSModern";
-// import ATSClassic from "../templates/ats/ATSClassic";
 import ATSModern from "../components/cv/templates/ats/AtsModern";
-import AtsClasic from "../components/cv/templates/ats/AtsClasic";
+import AtsClasic from "../components/cv/templates/ats/AtsClassic";
 
 export const TEMPLATES = [
   {
@@ -16,7 +14,7 @@ export const TEMPLATES = [
     id: "ats-classic",
     category: "ats",
     name: "ATS Classic",
-    component: ATSClassic,
+    component: AtsClasic,
     thumbnail: "/images/templates/ats-classic.png",
   },
 ];

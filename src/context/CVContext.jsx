@@ -18,6 +18,8 @@ export function CVProvider({ children }) {
   const [projects, setProjects] = useState([]);
   const [selectedTheme, setSelectedTheme] = useState("minimalis");
   const [selectedCategory, setSelectedCategory] = useState("ats");
+  const [selectedTemplate, setSelectedTemplate] =
+  useState("ats-modern");
 
   const handleLogin = (userData) => {
     setUser(userData);
@@ -58,6 +60,7 @@ export function CVProvider({ children }) {
       projects, setProjects,
       selectedTheme, setSelectedTheme,
       selectedCategory, setSelectedCategory,
+      selectedTemplate,setSelectedTemplate,
       handleLogin, handleLogout,
       completedSteps,
     }}>

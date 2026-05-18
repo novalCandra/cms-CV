@@ -21,7 +21,7 @@ import { useCVContext } from "../context/CVContext";
 
 export default function BuilderPage() {
 
-  const {
+const {
   currentStep,
   setCurrentStep,
   profile,
@@ -38,17 +38,70 @@ export default function BuilderPage() {
   setSelectedTheme,
   selectedCategory,
   setSelectedCategory,
+
+  selectedTemplate,
+  setSelectedTemplate,
 } = useCVContext();
 
-  const stepComponents = {
-    1: <StepProfile data={profile} setData={setProfile} />,
-    2: <StepExperience experiences={experiences} setExperiences={setExperiences} />,
-    3: <StepEducation educations={educations} setEducations={setEducations} />,
-    4: <StepSkills skills={skills} setSkills={setSkills} />,
-    5: <StepPortfolio projects={projects} setProjects={setProjects} />,
-    6: <StepTheme selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />,
-    7: <StepPreview profile={profile} experiences={experiences} educations={educations} skills={skills} projects={projects} selectedTheme={selectedTheme} setSelectedTheme={setSelectedTheme} />,
-  };
+const stepComponents = {
+  1: <StepProfile data={profile} setData={setProfile} />,
+
+  2: (
+    <StepExperience
+      experiences={experiences}
+      setExperiences={setExperiences}
+    />
+  ),
+
+  3: (
+    <StepEducation
+      educations={educations}
+      setEducations={setEducations}
+    />
+  ),
+
+  4: (
+    <StepSkills
+      skills={skills}
+      setSkills={setSkills}
+    />
+  ),
+
+  5: (
+    <StepPortfolio
+      projects={projects}
+      setProjects={setProjects}
+    />
+  ),
+
+  6: (
+    <StepTheme
+      selectedTheme={selectedTheme}
+      setSelectedTheme={setSelectedTheme}
+
+      selectedCategory={selectedCategory}
+      setSelectedCategory={setSelectedCategory}
+
+      selectedTemplate={selectedTemplate}
+      setSelectedTemplate={setSelectedTemplate}
+    />
+  ),
+
+  7: (
+    <StepPreview
+      profile={profile}
+      experiences={experiences}
+      educations={educations}
+      skills={skills}
+      projects={projects}
+
+      selectedTheme={selectedTheme}
+      setSelectedTheme={setSelectedTheme}
+
+      selectedTemplate={selectedTemplate}
+    />
+  ),
+};
 
   return (
     <div>
