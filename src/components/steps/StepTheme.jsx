@@ -1,4 +1,4 @@
-import { THEMES, CATEGORIES, TEMPLATES  } from "../../constants";
+import { THEMES, CATEGORIES, TEMPLATES } from "../../constants";
 
 export default function StepTheme({
   selectedTheme,

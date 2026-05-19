@@ -1,4 +1,4 @@
-export default function ATSClasic({
+export default function ATSModern({
   profile,
   experiences,
   educations,

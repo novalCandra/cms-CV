@@ -1,14 +1,9 @@
 import { useState } from "react";
 
-import { THEMES } from "../../constants";
-
-import ATSClassic from "../cv/templates/ats/ATSClassic";
-import ATSModern from "../cv/templates/ats/ATSModern";
-
-const TEMPLATE_COMPONENTS = {
-  "ats-classic": ATSClassic,
-  "ats-modern": ATSModern,
-};
+import {
+  THEMES,
+  TEMPLATES,
+} from "../../constants";
 
 export default function StepPreview({
   profile,
@@ -23,12 +18,16 @@ export default function StepPreview({
   selectedTemplate,
 }) {
   const [zoom, setZoom] = useState(1);
+
   const [showColorPicker, setShowColorPicker] =
     useState(false);
 
+  const templateData = TEMPLATES.find(
+    (t) => t.id === selectedTemplate
+  );
+
   const ActiveTemplate =
-    TEMPLATE_COMPONENTS[selectedTemplate] ||
-    ATSClassic;
+    templateData?.component;
 
   const activeTheme =
     THEMES.find((t) => t.id === selectedTheme) ||
@@ -45,7 +44,11 @@ export default function StepPreview({
           <button
             onClick={() =>
               setZoom((z) =>
-                z === 1 ? 0.75 : z === 0.75 ? 0.5 : 1
+                z === 1
+                  ? 0.75
+                  : z === 0.75
+                  ? 0.5
+                  : 1
               )
             }
             className="border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs text-slate-600 hover:bg-slate-50 transition"
@@ -61,7 +64,9 @@ export default function StepPreview({
           <div className="relative">
             <button
               onClick={() =>
-                setShowColorPicker(!showColorPicker)
+                setShowColorPicker(
+                  !showColorPicker
+                )
               }
               className="border border-slate-200 px-2.5 py-1.5 rounded-lg text-xs text-slate-600 hover:bg-slate-50 transition"
             >
@@ -104,14 +109,16 @@ export default function StepPreview({
               : "100%",
         }}
       >
-        <ActiveTemplate
-          profile={profile}
-          experiences={experiences}
-          educations={educations}
-          skills={skills}
-          projects={projects}
-          theme={activeTheme}
-        />
+        {ActiveTemplate && (
+          <ActiveTemplate
+            profile={profile}
+            experiences={experiences}
+            educations={educations}
+            skills={skills}
+            projects={projects}
+            theme={activeTheme}
+          />
+        )}
       </div>
     </div>
   );
