@@ -37,7 +37,7 @@
 //   );
 // }
 
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
@@ -56,7 +56,7 @@ export default function AppRoutes() {
       {/* AUTH */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-        <Route path="/*" element={<NotFound />} />
+      <Route path="/*" element={<NotFound />} />
 
 
       {/* APP */}

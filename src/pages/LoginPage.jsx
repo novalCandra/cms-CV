@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import LoginHeroPanel from "../components/AuthComponent/HeroPanel";
 import StyleAuth from "../components/AuthComponent/style";
 
- 
 
- 
+
+
 export default function LoginPage({ onLogin, setAuthPage }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -14,11 +14,11 @@ export default function LoginPage({ onLogin, setAuthPage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [focused, setFocused] = useState(null);
   const [mounted, setMounted] = useState(false);
- 
+
   useEffect(() => {
     setMounted(true);
   }, []);
- 
+
   const handleLogin = () => {
     setError("");
     if (email && !email.includes("@")) {
@@ -31,15 +31,15 @@ export default function LoginPage({ onLogin, setAuthPage }) {
       onLogin({ name: email ? email.split("@")[0] : "Pengguna", email: email || "demo@cvcraft.id" });
     }, 1200);
   };
- 
+
   return (
     <>
 
-      <StyleAuth/>
+      <StyleAuth />
       <div className="min-h-screen flex flex-col md:flex-row bg-white overflow-hidden">
- 
-        <LoginHeroPanel/>
- 
+
+        <LoginHeroPanel />
+
         {/* ── RIGHT PANEL ─────────────────────────────────── */}
         <div className="flex-1 flex items-center justify-center p-6 md:p-10 bg-white min-h-screen md:min-h-0">
           <div
@@ -50,7 +50,7 @@ export default function LoginPage({ onLogin, setAuthPage }) {
               <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">C</div>
               <span className="font-bold text-slate-800">CVcraft</span>
             </div>
- 
+
             <div className="mb-8">
               <div className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-semibold rounded-full px-3 py-1 mb-4">
                 <span
@@ -69,9 +69,9 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                 </Link>
               </p>
             </div>
- 
+
             <div className="space-y-4">
- 
+
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Email</label>
                 <div className={`relative rounded-2xl border transition-all duration-200 ${focused === "email" ? "border-indigo-400 bg-white input-glow-focus" : "border-slate-200 bg-slate-50"}`}>
@@ -92,7 +92,7 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                   />
                 </div>
               </div>
- 
+
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Password</label>
@@ -133,7 +133,7 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                   </button>
                 </div>
               </div>
- 
+
               {error && (
                 <div className="flex items-center gap-2 bg-red-50 border border-red-100 rounded-xl px-3.5 py-2.5">
                   <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#ef4444" strokeWidth="2.5" className="shrink-0">
@@ -142,7 +142,7 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                   <p className="text-xs text-red-500 font-medium">{error}</p>
                 </div>
               )}
- 
+
               <button
                 onClick={handleLogin}
                 disabled={isLoading}
@@ -169,27 +169,27 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                   )}
                 </span>
               </button>
- 
+
               <div className="flex items-center gap-3 my-1">
                 <div className="flex-1 h-px bg-slate-100" />
                 <span className="text-xs text-slate-400 font-medium">atau</span>
                 <div className="flex-1 h-px bg-slate-100" />
               </div>
- 
+
               <button
                 type="button"
                 className="w-full flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white py-3.5 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50 transition-all duration-150 hover:shadow-sm active:scale-[0.99]"
               >
                 <svg width="18" height="18" viewBox="0 0 48 48">
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
                 </svg>
                 Masuk dengan Google
               </button>
             </div>
- 
+
             <p className="text-center text-[11px] text-slate-400 mt-5">
               🔐 Demo: klik <strong>Masuk Sekarang</strong> tanpa isi data
             </p>
