@@ -1,6 +1,8 @@
-import { THEMES, CATEGORIES, TEMPLATES } from "../../constants";
+import { THEMES, TEMPLATES } from "../../constants";
+import { useCVContext } from "../../context/CVContext";
 
 export default function StepTheme({
+
   selectedTheme,
   setSelectedTheme,
   selectedCategory,
@@ -9,6 +11,7 @@ export default function StepTheme({
   selectedTemplate,
   setSelectedTemplate,
 }) {
+    const { categories } = useCVContext();
     const filteredTemplates = TEMPLATES.filter(
     (t) => t.category === selectedCategory
   );
@@ -22,13 +25,13 @@ export default function StepTheme({
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {CATEGORIES.map((cat) => {
+          {categories?.map((cat) => {
             const Icon = cat.icon;
 
             return (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
+                onClick={() => setSelectedCategory(cat.name)}
                 className={`p-3 md:p-4 rounded-2xl border-2 text-left transition-all ${
                   selectedCategory === cat.id
                     ? "border-indigo-500 bg-indigo-50"
@@ -37,14 +40,7 @@ export default function StepTheme({
               >
                 {/* ICON */}
                 <div className="mb-2">
-                  <Icon
-                    size={24}
-                    className={
-                      selectedCategory === cat.id
-                        ? "text-indigo-600"
-                        : "text-slate-600"
-                    }
-                  />
+                    icon
                 </div>
 
                 {/* LABEL */}
@@ -60,7 +56,7 @@ export default function StepTheme({
 
                 {/* DESC */}
                 <p className="text-xs text-slate-500 mt-0.5 hidden sm:block">
-                  {cat.desc}
+                  {cat.description}
                 </p>
               </button>
             );

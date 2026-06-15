@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
  
-import { STEPS } from "../../constants";
-import LogoutModal from "./LogoutModal";
+import { STEPS } from "../../../constants";
+import LogoutModal from ".././LogoutModal";
  
 import {
   LayoutDashboard,
@@ -15,7 +14,7 @@ import {
   LogOut,
 } from "lucide-react";
  
-export default function Sidebar({
+export default function SidebarAdmin({
   currentStep,
   setCurrentStep,
   collapsed,
@@ -30,10 +29,8 @@ export default function Sidebar({
   const location = useLocation();
  
   const menuItems = [
-    { path: "/dashboard", label: "Dashboard",  icon: LayoutDashboard },
-    { path: "/builder",   label: "CV Builder", icon: FileText },
-    { path: "/preview",   label: "Preview CV", icon: Eye },
-    { path: "/download",  label: "Download",   icon: Download },
+    { path: "/admin/dashboard", label: "Dashboard",  icon: LayoutDashboard },
+    { path: "/admin/kategori",   label: "Kategori CV", icon: FileText },
   ];
  
   const initials = userName
@@ -114,41 +111,6 @@ export default function Sidebar({
               </button>
             );
           })}
- 
-          {!collapsed && location.pathname === "/builder" && (
-            <div className="mt-3 pt-3 border-t border-slate-700">
-              <p className="text-xs text-slate-500 uppercase tracking-wider px-3 mb-1.5">
-                Langkah
-              </p>
- 
-              {STEPS.map((step) => {
-                const StepIcon = step.icon;
- 
-                return (
-                  <button
-                    key={step.id}
-                    onClick={() => setCurrentStep(step.id)}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all text-left ${
-                      currentStep === step.id
-                        ? "bg-slate-700 text-white"
-                        : "text-slate-500 hover:text-slate-300"
-                    }`}
-                  >
-                    <span
-                      className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
-                        currentStep >= step.id
-                          ? "bg-indigo-500 text-white"
-                          : "bg-slate-700 text-slate-500"
-                      }`}
-                    >
-                      <StepIcon size={12} />
-                    </span>
-                    <span className="truncate">{step.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
         </nav>
  
         <div

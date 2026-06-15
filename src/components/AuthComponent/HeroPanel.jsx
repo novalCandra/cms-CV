@@ -51,7 +51,7 @@ export default function LoginHeroPanel(){
  
         {/* ── LEFT PANEL ──────────────────────────────────── */}
         <div
-          className="hidden md:flex md:w-[52%] relative overflow-hidden min-h-screen"
+          className="hidden md:flex md:w-[52%] relative overflow-hidden h-screen sticky top-0 self-start"
           style={{ background: "linear-gradient(135deg, #0f0c29 0%, #1a1040 40%, #24243e 100%)" }}
         >
           <div className="absolute top-[-120px] left-[-80px] w-[420px] h-[420px] rounded-full opacity-20"

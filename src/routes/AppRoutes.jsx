@@ -48,6 +48,9 @@ import DownloadPage from "../pages/DownloadPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFound from "../pages/Notfound";
+import AdminLayout from "../layouts/AdminLayout";
+import AdminDashboardPage from "../pages/admin/AdminDashboard";
+import KategoriCV from "../pages/admin/KategoriCv";
 
 export default function AppRoutes() {
   return (
@@ -65,6 +68,11 @@ export default function AppRoutes() {
         <Route path="/builder" element={<BuilderPage />} />
         <Route path="/preview" element={<PreviewPage />} />
         <Route path="/download" element={<DownloadPage />} />
+      </Route>
+      
+      <Route element={<AdminLayout/>} path="/admin">
+            <Route path="dashboard" element={<AdminDashboardPage/>}/>
+            <Route path="kategori" element={<KategoriCV/>}/>
       </Route>
 
       {/* DEFAULT */}

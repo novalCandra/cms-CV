@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { STEPS } from "../constants";
-import { useCVContext } from "../context/CVContext";
+import { STEPS } from "../../constants";
+import { useCVContext } from "../../context/CVContext";
 import { useNavigate } from "react-router-dom";
 import {
   FileText,
@@ -81,7 +81,7 @@ function AnimatedCounter({ target, suffix = "" }) {
   return <>{typeof target === "number" ? count : target}{suffix}</>;
 }
  
-export default function DashboardPage() {
+export default function AdminDashboardPage() {
   const { setCurrentStep, completedSteps, user } = useCVContext();
   const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);

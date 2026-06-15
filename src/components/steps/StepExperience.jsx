@@ -41,8 +41,8 @@ export default function StepExperience({ experiences, setExperiences }) {
         </div>
       )}
 
-      {experiences.map((exp) => (
-        <div key={exp.id} className="bg-white rounded-2xl border border-slate-200 p-4 flex gap-3">
+      {experiences.map((exp, index) => (
+        <div  key={index} key={exp.id} className="bg-white rounded-2xl border border-slate-200 p-4 flex gap-3">
           <div className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm shrink-0">
             {exp.perusahaan.charAt(0).toUpperCase()}
           </div>

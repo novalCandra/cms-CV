@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LoginHeroPanel from "../components/AuthComponent/HeroPanel";
 import StyleAuth from "../components/AuthComponent/style";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import API from "../constants/data";
  
 const Step = ({ number, label, active, done }) => (
   <div className="flex flex-col items-center gap-1.5">
@@ -107,42 +110,106 @@ const PasswordStrength = ({ pass }) => {
 };
  
 export default function RegisterPage({ onLogin, setAuthPage }) {
-  const [formData, setFormData] = useState({ nama: "", email: "", pass: "", confirm: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [focused, setFocused] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate()
+  
+  const handleChange = (e)=>{
+    setFormData({
+      ...formData, 
+      [e.target.name]: e.target.value
+    })
+  }
  
   useEffect(() => { setMounted(true); }, []);
  
-  const set = (key) => (e) => setFormData({ ...formData, [key]: e.target.value });
+  const set = (key) => (e) =>
+    setFormData({
+      ...formData,
+      [key]: e.target.value,
+    });
  
-  const handleRegister = () => {
-    setError("");
-    if (!formData.nama.trim()) { setError("Nama lengkap wajib diisi."); return; }
-    if (formData.email && !formData.email.includes("@")) { setError("Format email tidak valid."); return; }
-    if (formData.pass && formData.pass !== formData.confirm) { setError("Password tidak cocok."); return; }
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      onLogin({ name: formData.nama || "Pengguna", email: formData.email || "user@cvcraft.id" });
-    }, 1200);
-  };
- 
-  const filledCount = [formData.nama, formData.email, formData.pass, formData.confirm].filter(Boolean).length;
+  const handleRegister = async (e) => {
+        e.preventDefault();
+
+        setError("");
+        setMessage("");
+        setIsLoading(true);
+
+        try {
+          const response = await axios.post(
+            `${API}/api/auth/register`,
+            formData
+          );
+
+          console.log(response.data);
+          
+      localStorage.setItem(
+        "token",
+        response.data.token
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(response.data.user)
+      );
+
+
+          setMessage(response.data.message);
+          navigate("/dashboard");
+
+          if (onLogin) {
+            onLogin(response.data.user);
+          }
+
+        } catch (error) {
+          console.error(error);
+
+          const errors = error.response?.data?.errors;
+
+          if (errors) {
+            const firstError = Object.values(errors)[0][0];
+            setError(firstError);
+          } else {
+            setError(
+              error.response?.data?.message ||
+              "Terjadi kesalahan pada server"
+            );
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      };
+    
+    const filledCount = [
+    formData.name,
+    formData.email,
+    formData.password,
+    formData.password_confirmation,
+  ].filter(Boolean).length;
  
   return (
     <>
 
       <StyleAuth/>
  
-      <div className="min-h-screen flex flex-col md:flex-row bg-white overflow-hidden">
+      <div className="min-h-screen flex flex-col md:flex-row bg-white ">
  
         <LoginHeroPanel/>
  
         {/* ── RIGHT PANEL ── */}
         <div className="flex-1 flex items-center justify-center p-6 md:p-10 bg-white min-h-screen md:min-h-0 overflow-y-auto">
-          <div className={`w-full max-w-[380px] py-8 ${mounted ? "anim-slide-up" : "opacity-0"}`} style={{ animationDelay: "0.05s" }}>
+          <div className={`w-full max-w-95 py-8 ${mounted ? "anim-slide-up" : "opacity-0"}`} style={{ animationDelay: "0.05s" }}>
  
             <div className="flex md:hidden items-center gap-2 mb-8">
               <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">C</div>
@@ -185,11 +252,11 @@ export default function RegisterPage({ onLogin, setAuthPage }) {
                 icon={<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>}
                 type="text"
                 placeholder="Andi Pratama"
-                value={formData.nama}
-                onChange={set("nama")}
-                onFocus={() => setFocused("nama")}
+                value={formData.name}
+                onChange={set("name")}
+                onFocus={() => setFocused("name")}
                 onBlur={() => setFocused(null)}
-                focused={focused === "nama"}
+                focused={focused === "name"}
               />
  
               <InputField
@@ -208,41 +275,77 @@ export default function RegisterPage({ onLogin, setAuthPage }) {
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Password</label>
                 </div>
-                <div className={`relative rounded-2xl border transition-all duration-200 ${focused === "pass" ? "border-indigo-400 bg-white" : "border-slate-200 bg-slate-50"}`}
-                  style={focused === "pass" ? { boxShadow: "0 0 0 3px rgba(99,102,241,0.15)" } : {}}>
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                  <div className={`relative rounded-2xl border transition-all duration-200 ${
+                    focused === "password"
+                      ? "border-indigo-400 bg-white"
+                      : "border-slate-200 bg-slate-50"
+                  }`}
+                  style={
+                    focused === "password"
+                      ? { boxShadow: "0 0 0 3px rgba(99,102,241,0.15)" }
+                      : {}
+                  }
+                  >
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                      ...
+                    </div>
+
+                    <PasswordToggleInput
+                      placeholder="Minimal 8 karakter"
+                      value={formData.password}
+                      onChange={set("password")}
+                      onFocus={() => setFocused("password")}
+                      onBlur={() => setFocused(null)}
+                    />
                   </div>
-                  <PasswordToggleInput
-                    placeholder="Minimal 8 karakter"
-                    value={formData.pass}
-                    onChange={set("pass")}
-                    onFocus={() => setFocused("pass")}
-                    onBlur={() => setFocused(null)}
-                  />
-                </div>
-                <PasswordStrength pass={formData.pass} />
+
+                  <PasswordStrength pass={formData.password} />
               </div>
  
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Konfirmasi Password</label>
-                  {formData.confirm && formData.pass && (
-                    <span className={`text-[10px] font-semibold ${formData.confirm === formData.pass ? "text-emerald-500" : "text-red-400"}`}>
-                      {formData.confirm === formData.pass ? "✓ Cocok" : "✗ Tidak cocok"}
-                    </span>
-                  )}
+                    {formData.password_confirmation &&
+                    formData.password && (
+                      <span
+                        className={`text-[10px] font-semibold ${
+                          formData.password_confirmation === formData.password
+                            ? "text-emerald-500"
+                            : "text-red-400"
+                        }`}
+                      >
+                        {formData.password_confirmation === formData.password
+                          ? "✓ Cocok"
+                          : "✗ Tidak cocok"}
+                      </span>
+                    )}
                 </div>
-                <div className={`relative rounded-2xl border transition-all duration-200 ${focused === "confirm" ? "border-indigo-400 bg-white" : formData.confirm && formData.confirm !== formData.pass ? "border-red-200 bg-red-50" : formData.confirm && formData.confirm === formData.pass ? "border-emerald-200 bg-emerald-50" : "border-slate-200 bg-slate-50"}`}
-                  style={focused === "confirm" ? { boxShadow: "0 0 0 3px rgba(99,102,241,0.15)" } : {}}>
+              <div
+                className={`relative rounded-2xl border transition-all duration-200 ${
+                  focused === "password_confirmation"
+                    ? "border-indigo-400 bg-white"
+                    : formData.password_confirmation &&
+                      formData.password_confirmation !== formData.password
+                    ? "border-red-200 bg-red-50"
+                    : formData.password_confirmation &&
+                      formData.password_confirmation === formData.password
+                    ? "border-emerald-200 bg-emerald-50"
+                    : "border-slate-200 bg-slate-50"
+                }`}
+                style={
+                  focused === "password_confirmation"
+                    ? { boxShadow: "0 0 0 3px rgba(99,102,241,0.15)" }
+                    : {}
+                }
+              >
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
                     <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                   </div>
                   <PasswordToggleInput
                     placeholder="Ulangi password"
-                    value={formData.confirm}
-                    onChange={set("confirm")}
-                    onFocus={() => setFocused("confirm")}
+                    value={formData.password_confirmation}
+                    onChange={set("password_confirmation")}
+                    onFocus={() => setFocused("password_confirmation")}
                     onBlur={() => setFocused(null)}
                   />
                 </div>
@@ -254,6 +357,13 @@ export default function RegisterPage({ onLogin, setAuthPage }) {
                     <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
                   </svg>
                   <p className="text-xs text-red-500 font-medium">{error}</p>
+                </div>
+              )}
+              {message && (
+                <div className="flex items-center gap-2 bg-green-50 border border-green-100 rounded-xl px-3.5 py-2.5">
+                  <p className="text-xs text-green-600 font-medium">
+                    {message}
+                  </p>
                 </div>
               )}
  

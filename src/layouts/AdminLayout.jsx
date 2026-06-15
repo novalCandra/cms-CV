@@ -1,19 +1,19 @@
 import { Outlet, useLocation } from "react-router-dom";
  
-import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
-import BottomNav from "../components/layout/BottomNav";
- 
+import BottomNavAdmin from "../components/layout/adminLayout/BottomNavAdmin";
+
 import { useCVContext } from "../context/CVContext";
+import SidebarAdmin from "../components/layout/adminLayout/SidebarAdmin";
  
 const PAGE_TITLES = {
-  "/dashboard": "Dashboard",
-  "/builder":   "CV Builder",
+  "/admin/dashboard": "Dashboard",
+  "/admin/kategori":   "Kategori Cv",
   "/preview":   "Preview CV",
   "/download":  "Download CV",
 };
  
-export default function MainLayout() {
+export default function AdminLayout() {
   const location = useLocation();
  
   const {
@@ -31,7 +31,7 @@ export default function MainLayout() {
   return (
     <div className="flex bg-slate-50 min-h-screen">
       {/* Sidebar is fixed inside its own component */}
-      <Sidebar
+      <SidebarAdmin
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
         collapsed={sidebarCollapsed}
@@ -75,7 +75,7 @@ export default function MainLayout() {
         </main>
       </div>
  
-      <BottomNav />
+      <BottomNavAdmin />
     </div>
   );
 }

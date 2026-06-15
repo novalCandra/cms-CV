@@ -14,7 +14,7 @@ export const TEMPLATES = [
 
   {
     id: "ats-classic",
-    category: "ats",
+    category: "ats",   
     name: "ATS Classic",
     component: ATSClassic,
     thumbnail: "/images/templates/ats-classic.png",

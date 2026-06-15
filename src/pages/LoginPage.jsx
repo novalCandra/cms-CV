@@ -2,41 +2,90 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LoginHeroPanel from "../components/AuthComponent/HeroPanel";
 import StyleAuth from "../components/AuthComponent/style";
-
- 
-
+import axios from "axios";
+import API from "../constants/data";
+import { useNavigate } from "react-router-dom";
  
 export default function LoginPage({ onLogin, setAuthPage }) {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [focused, setFocused] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate();
  
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const set = (key) => (e) => {
+  setFormData({
+    ...formData,
+    [key]: e.target.value,
+  });
+};
  
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setError("");
-    if (email && !email.includes("@")) {
-      setError("Format email tidak valid.");
-      return;
-    }
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const response = await axios.post(
+        `${API}/api/auth/login`,
+        formData
+      );
+
+      console.log(response.data);
+
+      localStorage.setItem(
+        "token",
+        response.data.data.token
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(response.data.data.user)
+      );
+
+      localStorage.setItem(
+        "role", 
+        response.data.data.user.roles[0].id
+      )
+
+      navigate('/dashboard')
+
+      if (onLogin) {
+        onLogin(response.data.user);
+      }
+
+    } catch (error) {
+      console.error(error);
+
+    const errors = error.response?.data?.errors;
+
+            if (errors) {
+              const firstError = Object.values(errors)[0][0];
+              setError(firstError);
+            } else {
+              setError(
+                error.response?.data?.message ||
+                "Terjadi kesalahan pada server"
+              );
+            }
+    } finally {
       setIsLoading(false);
-      onLogin({ name: email ? email.split("@")[0] : "Pengguna", email: email || "demo@cvcraft.id" });
-    }, 1200);
+    }
   };
  
   return (
     <>
 
       <StyleAuth/>
-      <div className="min-h-screen flex flex-col md:flex-row bg-white overflow-hidden">
+      <div className="min-h-screen flex flex-col md:flex-row bg-white ">
  
         <LoginHeroPanel/>
  
@@ -84,8 +133,8 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                     type="email"
                     className="w-full bg-transparent pl-11 pr-4 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none rounded-2xl"
                     placeholder="andi@email.com"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    value={formData.email}
+                    onChange={set("email")}
                     onFocus={() => setFocused("email")}
                     onBlur={() => setFocused(null)}
                     onKeyDown={e => e.key === "Enter" && handleLogin()}
@@ -109,9 +158,9 @@ export default function LoginPage({ onLogin, setAuthPage }) {
                     type={showPass ? "text" : "password"}
                     className="w-full bg-transparent pl-11 pr-12 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none rounded-2xl"
                     placeholder="Minimal 8 karakter"
-                    value={pass}
-                    onChange={e => setPass(e.target.value)}
-                    onFocus={() => setFocused("pass")}
+                    value={formData.password}
+                    onChange={set("password")}
+                    onFocus={() => setFocused("password")}
                     onBlur={() => setFocused(null)}
                     onKeyDown={e => e.key === "Enter" && handleLogin()}
                   />
